@@ -15,7 +15,7 @@ public class MyController {
 
     @GetMapping("/")
     @ResponseBody
-    public String welcome(){
+    public String welcome() {
         return "Welcome to cat facts";
     }
 
@@ -29,7 +29,7 @@ public class MyController {
     @GetMapping("/getTen")
     @ResponseBody
     public String tenFacts() throws IOException {
-        ArrayList <String> facts = new ArrayList<>();
+        ArrayList<String> facts = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < 10; i++) {
@@ -44,7 +44,7 @@ public class MyController {
     @GetMapping("/getTenSortByDate")
     @ResponseBody
     public String tenSortedFacts() throws IOException {
-        ArrayList <CatFact> catFacts = new ArrayList<>();
+        ArrayList<CatFact> catFacts = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < 10; i++) {
@@ -55,22 +55,30 @@ public class MyController {
         //Sort after created date
         Collections.sort(catFacts);
 
-        for (CatFact catFact: catFacts) {
+        for (CatFact catFact : catFacts) {
             builder.append(catFact + " ");
         }
 
         return builder.toString();
     }
 
-    @GetMapping("/")
+    @GetMapping("/contain")
     @ResponseBody
     public String containChar(char enterChar, int amount) throws IOException {
         CatService fact = new CatService();
         int charCounter = 0;
-        if(charCounter >= amount){
+        char[] charArray = fact.getCatFactString().toCharArray();
+
+        for (char ch : charArray) {
+            if (ch == enterChar) {
+                charCounter++;
+            }
+        }
+
+        if (charCounter > amount) {
+            return "Sorry no luck!";
+        } else {
             return fact.getCatFactString();
-        } else{
-            return "Sorry no luck";
         }
     }
 }
