@@ -29,16 +29,16 @@ public class MyController {
     @GetMapping("/getTen")
     @ResponseBody
     public String tenFacts() throws IOException {
-        ArrayList<String> facts = new ArrayList<>();
+        ArrayList<CatFact> facts = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < 10; i++) {
             CatService fact = new CatService();
-            facts.add(fact.getCatFactString());
+            facts.add(fact.getCatFactData());
             builder.append(facts.get(i) + " ");
         }
 
-        return builder.toString();
+       return builder.toString();
     }
 
     @GetMapping("/getTenSortByDate")
