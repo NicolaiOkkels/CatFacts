@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+//Note: Kunne evt godt gøre denne klasse static, da den ikke gemmer nogle attributter på klassen.
+
 @Controller
 public class MyController {
+    private CatService fact = new CatService();
 
     @GetMapping("/")
     @ResponseBody
@@ -22,20 +25,17 @@ public class MyController {
     @GetMapping("/getSingle")
     @ResponseBody
     public String randomFact() throws IOException {
-        CatService fact = new CatService();
-        return fact.getCatFactString();
+        return fact.getCatFactData().toString();
     }
 
     @GetMapping("/getTen")
     @ResponseBody
     public String tenFacts() throws IOException {
-        ArrayList<CatFact> facts = new ArrayList<>();
+        ArrayList<CatFact> catFacts = fact.getTenCatFactsArrayList();
         StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < 10; i++) {
-            CatService fact = new CatService();
-            facts.add(fact.getCatFactData());
-            builder.append(facts.get(i) + " ");
+        for (CatFact catFact : catFacts) {
+            builder.append(catFact + " ");
         }
 
        return builder.toString();
@@ -44,16 +44,8 @@ public class MyController {
     @GetMapping("/getTenSortByDate")
     @ResponseBody
     public String tenSortedFacts() throws IOException {
-        ArrayList<CatFact> catFacts = new ArrayList<>();
+        ArrayList<CatFact> catFacts = fact.getSortedCatFactsArrayList();
         StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < 10; i++) {
-            CatService fact = new CatService();
-            catFacts.add(fact.getCatFactData());
-        }
-
-        //Sort after created date
-        Collections.sort(catFacts);
 
         for (CatFact catFact : catFacts) {
             builder.append(catFact + " ");
@@ -65,9 +57,8 @@ public class MyController {
     @GetMapping("/contain")
     @ResponseBody
     public String containChar(char enterChar, int amount) throws IOException {
-        CatService fact = new CatService();
         int charCounter = 0;
-        char[] charArray = fact.getCatFactString().toCharArray();
+        char[] charArray = fact.getCatFactData().toString().toCharArray();
 
         for (char ch : charArray) {
             if (ch == enterChar) {
@@ -78,7 +69,7 @@ public class MyController {
         if (charCounter > amount) {
             return "Sorry no luck!";
         } else {
-            return fact.getCatFactString();
+            return fact.getCatFactData().toString();
         }
     }
 }
