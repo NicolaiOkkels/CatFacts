@@ -40,5 +40,15 @@ public class CatService {
 
         return sortedCatFacts;
     }
-    //TODO: lav en metode der ligger catFacts ind i en arrayList, istedet for at have redundant kode i myController klassen
+
+    public String getCatFactString(ArrayList<CatFact> catFacts) throws IOException {
+        ArrayList<CatFact> tenCatFacts = getTenCatFactsArrayList();
+        StringBuilder builder = new StringBuilder();
+
+        for (CatFact catFact : tenCatFacts) {
+            builder.append(catFact + " ");
+        }
+
+        return builder.toString();
+    }
 }

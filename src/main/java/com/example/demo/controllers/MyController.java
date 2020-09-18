@@ -32,26 +32,16 @@ public class MyController {
     @ResponseBody
     public String tenFacts() throws IOException {
         ArrayList<CatFact> catFacts = fact.getTenCatFactsArrayList();
-        StringBuilder builder = new StringBuilder();
-
-        for (CatFact catFact : catFacts) {
-            builder.append(catFact + " ");
-        }
-
-       return builder.toString();
+        String str = fact.getCatFactString(catFacts);
+        return str;
     }
 
     @GetMapping("/getTenSortByDate")
     @ResponseBody
     public String tenSortedFacts() throws IOException {
         ArrayList<CatFact> catFacts = fact.getSortedCatFactsArrayList();
-        StringBuilder builder = new StringBuilder();
-
-        for (CatFact catFact : catFacts) {
-            builder.append(catFact + " ");
-        }
-
-        return builder.toString();
+        String str = fact.getCatFactString(catFacts);
+        return str;
     }
 
     @GetMapping("/contain")
